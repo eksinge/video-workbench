@@ -1,0 +1,236 @@
+{
+  "installedAt": "2026-10-19T09:46:01.948627+00:00",
+  "skills": [
+    {
+      "name": "remotion-best-practices",
+      "repository": "remotion-dev/skills",
+      "commit": "1441a11e95db35443bd76bb318386c0d3ca00053",
+      "path": "../skills/remotion-best-practices",
+      "files": 143
+    },
+    {
+      "name": "remotion-captions",
+      "repository": "remotion-dev/skills",
+      "commit": "1441a11e95db35443bd76bb318386c0d3ca00053",
+      "path": "../skills/remotion-captions",
+      "files": 6
+    },
+    {
+      "name": "remotion-create",
+      "repository": "remotion-dev/skills",
+      "commit": "1441a11e95db35443bd76bb318386c0d3ca00053",
+      "path": "../skills/remotion-create",
+      "files": 5
+    },
+    {
+      "name": "remotion-docs",
+      "repository": "remotion-dev/skills",
+      "commit": "1441a11e95db35443bd76bb318386c0d3ca00053",
+      "path": "../skills/remotion-docs",
+      "files": 3
+    },
+    {
+      "name": "remotion-interactivity",
+      "repository": "remotion-dev/skills",
+      "commit": "1441a11e95db35443bd76bb318386c0d3ca00053",
+      "path": "../skills/remotion-interactivity",
+      "files": 5
+    },
+    {
+      "name": "remotion-maps",
+      "repository": "remotion-dev/skills",
+      "commit": "1441a11e95db35443bd76bb318386c0d3ca00053",
+      "path": "../skills/remotion-maps",
+      "files": 32
+    },
+    {
+      "name": "remotion-markup",
+      "repository": "remotion-dev/skills",
+      "commit": "1441a11e95db35443bd76bb318386c0d3ca00053",
+      "path": "../skills/remotion-markup",
+      "files": 67
+    },
+    {
+      "name": "remotion-multimedia",
+      "repository": "remotion-dev/skills",
+      "commit": "1441a11e95db35443bd76bb318386c0d3ca00053",
+      "path": "../skills/remotion-multimedia",
+      "files": 6
+    },
+    {
+      "name": "remotion-render",
+      "repository": "remotion-dev/skills",
+      "commit": "1441a11e95db35443bd76bb318386c0d3ca00053",
+      "path": "../skills/remotion-render",
+      "files": 4
+    },
+    {
+      "name": "remotion-saas",
+      "repository": "remotion-dev/skills",
+      "commit": "1441a11e95db35443bd76bb318386c0d3ca00053",
+      "path": "../skills/remotion-saas",
+      "files": 6
+    },
+    {
+      "name": "remotion-studio",
+      "repository": "remotion-dev/skills",
+      "commit": "1441a11e95db35443bd76bb318386c0d3ca00053",
+      "path": "../skills/remotion-studio",
+      "files": 3
+    },
+    {
+      "name": "remotion-upgrade",
+      "repository": "remotion-dev/skills",
+      "commit": "1441a11e95db35443bd76bb318386c0d3ca00053",
+      "path": "../skills/remotion-upgrade",
+      "files": 3
+    },
+    {
+      "name": "embedded-captions",
+      "repository": "heygen-com/hyperframes",
+      "commit": "cea0bad7931122bd93680006978c0d9007daa3d4",
+      "path": "../skills/embedded-captions",
+      "files": 145
+    },
+    {
+      "name": "faceless-explainer",
+      "repository": "heygen-com/hyperframes",
+      "commit": "cea0bad7931122bd93680006978c0d9007daa3d4",
+      "path": "../skills/faceless-explainer",
+      "files": 29
+    },
+    {
+      "name": "figma",
+      "repository": "heygen-com/hyperframes",
+      "commit": "cea0bad7931122bd93680006978c0d9007daa3d4",
+      "path": "../skills/figma",
+      "files": 2
+    },
+    {
+      "name": "general-video",
+      "repository": "heygen-com/hyperframes",
+      "commit": "cea0bad7931122bd93680006978c0d9007daa3d4",
+      "path": "../skills/general-video",
+      "files": 6
+    },
+    {
+      "name": "hyperframes",
+      "repository": "heygen-com/hyperframes",
+      "commit": "cea0bad7931122bd93680006978c0d9007daa3d4",
+      "path": "../skills/hyperframes",
+      "files": 31
+    },
+    {
+      "name": "hyperframes-animation",
+      "repository": "heygen-com/hyperframes",
+      "commit": "cea0bad7931122bd93680006978c0d9007daa3d4",
+      "path": "../skills/hyperframes-animation",
+      "files": 122
+    },
+    {
+      "name": "hyperframes-audio",
+      "repository": "heygen-com/hyperframes",
+      "commit": "cea0bad7931122bd93680006978c0d9007daa3d4",
+      "path": "../skills/hyperframes-audio",
+      "files": 8
+    },
+    {
+      "name": "hyperframes-cli",
+      "repository": "heygen-com/hyperframes",
+      "commit": "cea0bad7931122bd93680006978c0d9007daa3d4",
+      "path": "../skills/hyperframes-cli",
+      "files": 11
+    },
+    {
+      "name": "hyperframes-core",
+      "repository": "heygen-com/hyperframes",
+      "commit": "cea0bad7931122bd93680006978c0d9007daa3d4",
+      "path": "../skills/hyperframes-core",
+      "files": 11
+    },
+    {
+      "name": "hyperframes-creative",
+      "repository": "heygen-com/hyperframes",
+      "commit": "cea0bad7931122bd93680006978c0d9007daa3d4",
+      "path": "../skills/hyperframes-creative",
+      "files": 79
+    },
+    {
+      "name": "hyperframes-keyframes",
+      "repository": "heygen-com/hyperframes",
+      "commit": "cea0bad7931122bd93680006978c0d9007daa3d4",
+      "path": "../skills/hyperframes-keyframes",
+      "files": 3
+    },
+    {
+      "name": "hyperframes-registry",
+      "repository": "heygen-com/hyperframes",
+      "commit": "cea0bad7931122bd93680006978c0d9007daa3d4",
+      "path": "../skills/hyperframes-registry",
+      "files": 12
+    },
+    {
+      "name": "hyperframes-studio",
+      "repository": "heygen-com/hyperframes",
+      "commit": "cea0bad7931122bd93680006978c0d9007daa3d4",
+      "path": "../skills/hyperframes-studio",
+      "files": 1
+    },
+    {
+      "name": "media-use",
+      "repository": "heygen-com/hyperframes",
+      "commit": "cea0bad7931122bd93680006978c0d9007daa3d4",
+      "path": "../skills/media-use",
+      "files": 113
+    },
+    {
+      "name": "motion-graphics",
+      "repository": "heygen-com/hyperframes",
+      "commit": "cea0bad7931122bd93680006978c0d9007daa3d4",
+      "path": "../skills/motion-graphics",
+      "files": 23
+    },
+    {
+      "name": "music-to-video",
+      "repository": "heygen-com/hyperframes",
+      "commit": "cea0bad7931122bd93680006978c0d9007daa3d4",
+      "path": "../skills/music-to-video",
+      "files": 169
+    },
+    {
+      "name": "pr-to-video",
+      "repository": "heygen-com/hyperframes",
+      "commit": "cea0bad7931122bd93680006978c0d9007daa3d4",
+      "path": "../skills/pr-to-video",
+      "files": 35
+    },
+    {
+      "name": "product-launch-video",
+      "repository": "heygen-com/hyperframes",
+      "commit": "cea0bad7931122bd93680006978c0d9007daa3d4",
+      "path": "../skills/product-launch-video",
+      "files": 37
+    },
+    {
+      "name": "remotion-to-hyperframes",
+      "repository": "heygen-com/hyperframes",
+      "commit": "cea0bad7931122bd93680006978c0d9007daa3d4",
+      "path": "../skills/remotion-to-hyperframes",
+      "files": 77
+    },
+    {
+      "name": "slideshow",
+      "repository": "heygen-com/hyperframes",
+      "commit": "cea0bad7931122bd93680006978c0d9007daa3d4",
+      "path": "../skills/slideshow",
+      "files": 2
+    },
+    {
+      "name": "talking-head-recut",
+      "repository": "heygen-com/hyperframes",
+      "commit": "cea0bad7931122bd93680006978c0d9007daa3d4",
+      "path": "../skills/talking-head-recut",
+      "files": 28
+    }
+  ]
+}

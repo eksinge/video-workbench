@@ -1,0 +1,1 @@
+Read `AGENTS.md`, then `skills/video-workbench/SKILL.md`. The canonical lyric effect is `conveyor-glyph-progress-v1`; timing offset defaults to zero and belongs to each song. Follow `docs/AI-WORKFLOW.md` for local setup and execution.

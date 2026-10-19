@@ -1,0 +1,35 @@
+{
+  "validated_on": "2026-10-19",
+  "platform": "Windows x64",
+  "runtime": {
+    "node": "24.15.0",
+    "python": "3.12",
+    "remotion": "4.0.536",
+    "hyperframes": "0.8.174",
+    "ffmpeg": "9.0.2",
+    "pillow": "12.3.0",
+    "faster_whisper": "1.2.1"
+  },
+  "checks": {
+    "npm_ci_both_engines": "passed in new portable project directory",
+    "pinned_official_skill_install": "33 installed; none missing",
+    "isolated_skill_install": "34 installed without replacing existing global skills",
+    "typescript_and_script_syntax": "passed",
+    "subtitle_style": "passed: default offset 0, row pitch 40, glyph-only tint, visible tinted music note, crop window, instrumental pause/resume",
+    "retention": "passed in isolated fixtures: newest three, protected source blocked, unrelated file preserved",
+    "web": "HTTP 200 for identity, status and original style-reference image",
+    "remotion_still": "LyricBackgroundDemo rendered",
+    "remotion_export": "ProjectLaunch: 15 seconds, 450 frames, audio present, full decode passed",
+    "hyperframes_check": "zero errors/warnings; runtime, layout and contrast checks passed",
+    "hyperframes_export": "integration-demo: 8 seconds, 240 frames, imported Remotion media and audio present, full decode passed",
+    "local_alignment": "8 supplied test lines, 23.6 seconds actual local audio; draft/evidence generated with needs_review status",
+    "custom_skill_schema": "passed",
+    "publication_scan": "no private user paths, original song media/lyrics, credentials or tokens in tracked files"
+  },
+  "limits": [
+    "Tests reused an existing local Chromium headless shell; a clean browser download on another machine was not tested.",
+    "The alignment smoke test checks execution and draft labeling, not precise synchronization of arbitrary songs.",
+    "Matching the reference note glyph requires the documented Segoe UI Symbol font.",
+    "Original song recordings, full lyrics and private review evidence are intentionally excluded."
+  ]
+}

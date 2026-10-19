@@ -1,0 +1,18 @@
+{
+  "name": "video-workbench",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local Remotion + HyperFrames workbench with reproducible conveyor glyph-progress lyrics",
+  "scripts": {
+    "setup": "node scripts/setup.mjs",
+    "setup:alignment": "node scripts/setup.mjs --with-alignment",
+    "setup:skills": "node scripts/fetch-official-skills.mjs",
+    "install-skills": "node scripts/install-skills.mjs",
+    "start": "node workbench/scripts/workbench.mjs start",
+    "serve": "node workbench/scripts/workbench.mjs serve",
+    "doctor": "node workbench/scripts/workbench.mjs doctor",
+    "check": "node scripts/check.mjs",
+    "test:style": "node scripts/python.mjs scripts/style-self-test.py"
+  },
+  "engines": {"node": ">=22"}
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "视频工作台"
+  short_description: "整合 Remotion 与 HyperFrames，按音频和字幕校时制作字形进度传送带歌词 MV"
+  default_prompt: "使用 $video-workbench 为我导入的音频和字幕制作 MV，按最新传送带字形填色样式校时，只保留最近三个版本。"

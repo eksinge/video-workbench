@@ -1,0 +1,8 @@
+{
+  "name": "视频工作台",
+  "port": 3026,
+  "remotion": {"directory": "../remotion-studio", "composition": "ProjectLaunch", "url": "http://localhost:3027/ProjectLaunch"},
+  "hyperframes": {"directory": "hyperframes-demo", "port": 3028, "url": "http://localhost:3028/#project/hyperframes-demo"},
+  "sharedAssets": "shared-assets",
+  "exports": "exports"
+}

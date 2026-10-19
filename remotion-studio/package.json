@@ -1,0 +1,25 @@
+{
+  "name": "project-launch-studio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "remotion studio src/index.ts --port=3027 --coding-agent=codex --ipv4",
+    "studio": "remotion studio src/index.ts --port=3027 --coding-agent=codex --ipv4 --no-open",
+    "render": "remotion render src/index.ts ProjectLaunch exports/project-launch.mp4 --codec=h264 --crf=18 --pixel-format=yuv420p --concurrency=2",
+    "poster": "remotion still src/index.ts ProjectLaunch exports/poster.png --frame=75",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.536",
+    "@remotion/media": "4.0.536",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "remotion": "4.0.536",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.0.0"
+  }
+}
