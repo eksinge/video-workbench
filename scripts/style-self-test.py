@@ -27,8 +27,8 @@ def main(args):
     source=(out/'lyrics.ass').read_text(encoding='utf-8-sig');header=source.split('[Events]')[0]
     body=[s for s in source.splitlines() if s.startswith(('Dialogue: 20,','Dialogue: 21,'))]
     (out/'masked-only.ass').write_text(header+'[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n'+'\n'.join(body)+'\n',encoding='utf-8-sig')
-    def layer(t,name):
-        raw=run(['ffmpeg','-v','error','-f','lavfi','-i','color=black:s=1920x1080:r=30:d=0.04','-vf',f'setparams=colorspace=bt709,setpts=PTS+{t}/TB,ass={name}:fontsdir=fonts','-frames:v','1','-f','rawvideo','-pix_fmt','rgb24','-'],cwd=out)
+    def layer(t,name,directory=out):
+        raw=run(['ffmpeg','-v','error','-f','lavfi','-i','color=black:s=1920x1080:r=30:d=0.04','-vf',f'setparams=colorspace=bt709,settb=1/1000,setpts=PTS+{round(t*1000)},ass={name}:fontsdir=fonts','-frames:v','1','-f','rawvideo','-pix_fmt','rgb24','-'],cwd=directory)
         return Image.frombytes('RGB',(1920,1080),raw)
     checks=[]
     for t in [12,30,45,duration-.1]:
@@ -50,6 +50,30 @@ def main(args):
     note=layer(notephase['move_end']+1,'masked-only.ass').crop((1750,925,1834,964))
     nr,ng,nb=note.split()
     assert ImageChops.multiply(nr.point(lambda v:255 if v>210 else 0),ng.point(lambda v:255 if 100<v<200 else 0)).getbbox() is not None,'Music note is not visibly tinted'
+    # Same bar geometry, two different actual intros; a lyric offset cannot move its clock.
+    def bar_only(directory):
+        s=(directory/'lyrics.ass').read_text(encoding='utf-8-sig')
+        rows=[v for v in s.splitlines() if v.startswith('Dialogue: 1,')]
+        (directory/'bar-only.ass').write_text(s.split('[Events]')[0]+'[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n'+'\n'.join(rows)+'\n',encoding='utf-8-sig')
+    bar_only(out)
+    assert manifest['intro_progress']['end']==1 and manifest['intro_progress']['enabled']
+    assert layer(0,'bar-only.ass').getchannel('R').point(lambda v:255 if v>100 else 0).getbbox() is None
+    intro_file=generated/'intro-cues.json'
+    intro_file.write_text(json.dumps({'duration':8,'audit':{'status':'reviewed'},'cues':[
+        {'start':0,'end':3,'text':'♪'},{'start':4,'end':6,'text':'A different opening line'}]}),encoding='utf-8')
+    intro_dir=generated/'intro-clock';imeta=compiler.compile_file(intro_file,intro_dir,offset=-.6)
+    assert imeta['intro_progress']['end']==4,'Intro used a note or the shifted subtitle time'
+    bar_only(intro_dir);intro_checks=[]
+    for directory,meta,fractions in [(out,manifest,[.25,.5,1,2]),(intro_dir,imeta,[.25,.5,1,1.5])]:
+        for fraction in fractions:
+            t=meta['intro_progress']['end']*fraction
+            box=layer(t,'bar-only.ass',directory).getchannel('R').point(lambda v:255 if v>100 else 0).getbbox()
+            left=meta['intro_progress']['left'];right=meta['intro_progress']['right']
+            expected=round(right-(right-left)*min(fraction,1))
+            assert box and abs(box[0]-expected)<=2 and box[1:]==(964,right,968),(t,box,expected)
+            intro_checks.append({'intro_seconds':meta['intro_progress']['end'],'sample_seconds':t,'actual_left':box[0],'expected_left':expected})
+    frames=list((ROOT/'templates/rock-paper-cut/compositions/frames').glob('*.html'))
+    assert len(frames)==6 and all('.scratch-a{top:115px;left:86px;width:1748px;}' in f.read_text(encoding='utf-8') for f in frames)
     # Test registry behavior in an isolated directory, never user exports.
     renderer=load('lyric_renderer',SKILL/'scripts/render_video.py')
     with tempfile.TemporaryDirectory(prefix='retention-',dir=generated) as td:
@@ -69,7 +93,7 @@ def main(args):
         run(['ffmpeg','-v','error','-y','-loop','1','-i',str(Path(args.background).resolve()),'-vf',f'setparams=colorspace=bt709,setpts=PTS+{t}/TB,ass=lyrics.ass:fontsdir=fonts','-frames:v','1',str(png)],cwd=out)
         im=Image.open(png);im.thumbnail((1280,720))
         im.save(SKILL/'assets/latest-style.jpg',quality=94);im.save(ROOT/'docs/style-reference.jpg',quality=94)
-    report={'passed':True,'default_offset':0,'row_pitch':40,'glyph_mask':checks,'music_note':True,'instrumental_pause_and_resume':True,'retention_three_only':True,'protected_source_preserved':True,'unrelated_file_preserved':True,'synthetic_fixture':True}
+    report={'passed':True,'default_offset':0,'row_pitch':40,'glyph_mask':checks,'music_note':True,'instrumental_pause_and_resume':True,'intro_progress':intro_checks,'intro_independent_of_lyric_offset':True,'white_line_all_six_templates':[86,1834],'retention_three_only':True,'protected_source_preserved':True,'unrelated_file_preserved':True,'synthetic_fixture':True}
     (generated/'style-test.json').write_text(json.dumps(report,indent=2),encoding='utf-8');print(json.dumps(report,indent=2))
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--write-reference',action='store_true');p.add_argument('--background');main(p.parse_args())

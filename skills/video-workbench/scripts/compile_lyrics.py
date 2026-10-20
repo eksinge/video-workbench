@@ -76,7 +76,7 @@ def measure_lines(lines, p, out):
         if 'Glyph' in log and 'not found' in log:raise ValueError('Missing glyph; configure a supported font: '+log)
     return result
 
-def compile_file(input_path, out, preset=None, offset=None, progress_seconds=None, draft=False, left=None):
+def compile_file(input_path, out, preset=None, offset=None, progress_seconds=None, draft=False, left=None, intro_end=None):
     out=Path(out).resolve();out.mkdir(parents=True,exist_ok=True)
     data=json.loads(Path(input_path).read_text(encoding='utf-8-sig'))
     if not draft and data.get('audit',{}).get('status')!='reviewed':
@@ -98,6 +98,14 @@ def compile_file(input_path, out, preset=None, offset=None, progress_seconds=Non
     measurements=measure_lines(list(dict.fromkeys(lines)),p,out)
     longest=min(measurements,key=lambda x:x['left']);left=longest['left'] if left is None else int(left)
     p['progress_left']=left
+    # A separate clock: actual first vocal onset, never the shifted display time.
+    vocal=next((c for c in cues if str(c['text']).strip() not in ('♪','♫','♬')),None)
+    onset=float(intro_end) if intro_end is not None else (float(vocal['start']) if vocal else None)
+    if onset is not None and not 0<=onset<=duration:raise ValueError('Intro end must lie within the audio duration')
+    intro={'enabled':bool(p.get('underline') and p.get('intro_progress',True) and onset is not None),
+           'end':onset,'left':left,'right':p['progress_right'],'top':p['underline_y'],
+           'height':p.get('underline_height',4),'holds_full':True,'clock':'unshifted actual first vocal onset',
+           'source':'explicit reviewed override' if intro_end is not None else 'first non-note unshifted cue'}
     phases=[]
     for j,c in enumerate(cues):
         start=float(c['start'])+p['offset_seconds'];end=float(cues[j+1]['start'])+p['offset_seconds'] if j+1<len(cues) else duration
@@ -110,8 +118,16 @@ def compile_file(input_path, out, preset=None, offset=None, progress_seconds=Non
     header=ass_header(p);rows=[];plain=[];segments=[]
     if p.get('underline'):
         orange=bgr(p['orange'])[4:-1]
-        line=f"Dialogue: 1,{stamp(max(0,cues[0]['start']))},{stamp(duration+.01)},Shape,,0,0,0,,{{\\an7\\pos({p['underline_left']},{p['underline_y']})\\p1\\bord0\\shad0\\c&H{orange}&}}m 0 0 l 49 0 45 4 0 4"
-        rows.append(line)
+        if intro['enabled']:
+            right=intro['right'];top=intro['top'];bottom=top+intro['height'];width=right-left
+            if width<=0:raise ValueError('Intro progress width must be positive')
+            clip=f'\\clip({left},{top},{right},{bottom})'
+            if onset>0:clip=f'\\clip({right},{top},{right},{bottom})\\t(0,{round(onset*1000)},{clip})'
+            rows.append(f'Dialogue: 1,{stamp(0)},{stamp(duration+.01)},Shape,,0,0,0,,{{\\an7\\pos({left},{top})\\p1\\bord0\\shad0\\c&H{orange}&{clip}}}m 0 0 l {width} 0 {width} {intro["height"]} 0 {intro["height"]}')
+        elif not p.get('intro_progress',True):
+            # Explicit compatibility mode only; the current default is the intro bar.
+            line=f"Dialogue: 1,{stamp(max(0,cues[0]['start']))},{stamp(duration+.01)},Shape,,0,0,0,,{{\\an7\\pos({p['underline_left']},{p['underline_y']})\\p1\\bord0\\shad0\\c&H{orange}&}}m 0 0 l 49 0 45 4 0 4"
+            rows.append(line)
     def edge(t):return round(p['clip_bottom']-(p['clip_bottom']-p['clip_top'])*min(max(t/period,0),1))
     for i,text in enumerate(lines):
         for j in range(i,len(phases)):
@@ -135,11 +151,11 @@ def compile_file(input_path, out, preset=None, offset=None, progress_seconds=Non
     (out/'lyrics.ass').write_text(header+'\n'.join(rows)+'\n',encoding='utf-8-sig')
     (out/'plain-glyph-reference.ass').write_text(header+'\n'.join(plain)+'\n',encoding='utf-8-sig')
     (out/'lyrics.srt').write_text('\n\n'.join(f"{i+1}\n{srtstamp(c['start']+p['offset_seconds'])} --> {srtstamp(c['end']+p['offset_seconds'])}\n{lines[i]}" for i,c in enumerate(cues))+'\n',encoding='utf-8')
-    manifest={'schema':'video-workbench-compiled-v1','duration':duration,'preset':p,'progress_duration':period,'longest':longest,'measurements':measurements,'cue_count':len(cues),'audit':data.get('audit',{}),'draft':draft,'phases':phases,'segments':segments,'unshifted_cues':cues}
+    manifest={'schema':'video-workbench-compiled-v1','duration':duration,'preset':p,'progress_duration':period,'intro_progress':intro,'longest':longest,'measurements':measurements,'cue_count':len(cues),'audit':data.get('audit',{}),'draft':draft,'phases':phases,'segments':segments,'unshifted_cues':cues}
     (out/'compiled.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding='utf-8')
     return manifest
 
 if __name__=='__main__':
-    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--cues',required=True);ap.add_argument('--out',required=True);ap.add_argument('--preset');ap.add_argument('--offset',type=float);ap.add_argument('--progress-seconds',type=float);ap.add_argument('--left',type=int);ap.add_argument('--draft',action='store_true')
-    args=ap.parse_args();m=compile_file(args.cues,args.out,args.preset,args.offset,args.progress_seconds,args.draft,args.left)
-    print(json.dumps({'cue_count':m['cue_count'],'offset':m['preset']['offset_seconds'],'row_pitch':m['preset']['row_pitch'],'progress_seconds':m['progress_duration'],'longest':m['longest'],'out':str(Path(args.out).resolve())},ensure_ascii=False,indent=2))
+    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--cues',required=True);ap.add_argument('--out',required=True);ap.add_argument('--preset');ap.add_argument('--offset',type=float);ap.add_argument('--progress-seconds',type=float);ap.add_argument('--left',type=int);ap.add_argument('--intro-end',type=float);ap.add_argument('--draft',action='store_true')
+    args=ap.parse_args();m=compile_file(args.cues,args.out,args.preset,args.offset,args.progress_seconds,args.draft,args.left,args.intro_end)
+    print(json.dumps({'cue_count':m['cue_count'],'offset':m['preset']['offset_seconds'],'row_pitch':m['preset']['row_pitch'],'progress_seconds':m['progress_duration'],'intro_progress':m['intro_progress'],'longest':m['longest'],'out':str(Path(args.out).resolve())},ensure_ascii=False,indent=2))

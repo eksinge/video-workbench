@@ -43,7 +43,9 @@
 
 默认读取 `assets/lyric-preset.json`，`--preset custom.json` 仅覆盖显式参数；`--offset 0` 设置**累计总偏移**（默认 0；参考歌曲的 -0.6 仅为该歌曲项目覆盖）；`--progress-seconds 240` 固定四分钟进度，未指定则随输入总时长；`--left 1316` 仅在明确保留旧矩形左界时使用。默认实际测量所有行，以最左字形对齐进度区域。`--draft` 允许生成校时审核草稿，仍标记 draft。
 
-产物 `lyrics.ass`、`lyrics.srt`、`compiled.json`、`plain-glyph-reference.ass`、字形测量 ASS 和项目字体副本。ASS 包含连续传送带、上下裁切及字形内进度，SRT 只用于交换单句时间，不能独立表达全部效果。
+`--intro-end 秒数` 可显式覆盖实际开唱点，默认读取首个非音符cue的**未偏移start**。前奏条从视频0秒、x=1834向左加载至实测最长行左界，4px高，开唱后保持满条；不随 `--offset` 或 `--progress-seconds` 改变时钟。默认不固定参考曲11.95秒。无前奏起点0则开头满条；全为音符且未指定起点时不伪造前奏。只有显式兼容旧项目时才在自定义preset中设 `intro_progress=false` 恢复原短线，当前默认不可退回。
+
+产物 `lyrics.ass`、`lyrics.srt`、`compiled.json`、`plain-glyph-reference.ass`、字形测量 ASS 和项目字体副本。compiled.json包含独立intro_progress的实际起点、几何与时钟来源。ASS 包含连续传送带、上下裁切、字形内全曲进度及前奏横条；白线由底层引擎按preset的white_line_*几何生成（x=86..1834，y=115），不在字幕上重复画。SRT只用于交换单句时间，不能独立表达全部效果。
 
 ## 3. 渲染、验证和三版本保留
 

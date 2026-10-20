@@ -36,6 +36,8 @@ node scripts/python.mjs skills/video-workbench/scripts/align_lyrics.py --audio p
 node scripts/python.mjs skills/video-workbench/scripts/compile_lyrics.py --cues projects/song/alignment/cues.reviewed.json --out projects/song/compiled
 ```
 
+下方橙线默认是前奏进度条：从0秒向左加载，在首个非音符cue的原始审核起点填满并保持，速度按该曲前奏适配。已审核的无词人声或其他特殊开唱点可用 `--intro-end 秒数` 覆盖；不固定参考歌的11.95秒。白线在底层原生场景中统一设为 x=86..1834、y=115（左右各延24px）；模板六景和Remotion示例已更新。
+
 默认偏移是0；用户明确要求提前/延后时传 `--offset` 作为累计偏移。**不要默认传-0.6。** 新曲进度默认随实际音频时长，固定四分钟可传 `--progress-seconds 240`。编译器实测字形边缘并将进度左界对齐最长行，不按字符数/Pillow尺寸猜测。
 
 如果行长超过画布，先据用户要求处理，不偷偷换行、缩字或合并句子。字体、40px行距、裁切和字形内进度以仓库preset为准。字形外绝不出现进度矩形，音符也参与遮罩。
