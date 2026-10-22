@@ -1,5 +1,6 @@
 {
   "schema": "video-workbench-lyric-preset-v1",
+  "_note": "Reference song (dark rock cut-paper) values. font, font_size, cream (text colour) and orange (accent / glyph-fill colour) follow each video's own style: override them with --preset and scale row_pitch with font_size.",
   "width": 1920,
   "height": 1080,
   "fps": 30,

@@ -76,7 +76,7 @@ def measure_lines(lines, p, out):
         if 'Glyph' in log and 'not found' in log:raise ValueError('Missing glyph; configure a supported font: '+log)
     return result
 
-def compile_file(input_path, out, preset=None, offset=None, progress_seconds=None, draft=False, left=None, intro_end=None):
+def compile_file(input_path, out, preset=None, offset=None, progress_seconds=None, draft=False, left=None, intro_end=None, fonts_dir=None):
     out=Path(out).resolve();out.mkdir(parents=True,exist_ok=True)
     data=json.loads(Path(input_path).read_text(encoding='utf-8-sig'))
     if not draft and data.get('audit',{}).get('status')!='reviewed':
@@ -95,6 +95,9 @@ def compile_file(input_path, out, preset=None, offset=None, progress_seconds=Non
     fonts=out/'fonts';fonts.mkdir(exist_ok=True)
     for src in (SKILL/'assets/fonts').iterdir():
         if src.is_file():shutil.copy2(src,fonts/src.name)
+    if fonts_dir:  # project fonts for a video whose style is not Barlow Black; same-named files override the bundled ones
+        for src in Path(fonts_dir).iterdir():
+            if src.is_file():shutil.copy2(src,fonts/src.name)
     measurements=measure_lines(list(dict.fromkeys(lines)),p,out)
     longest=min(measurements,key=lambda x:x['left']);left=longest['left'] if left is None else int(left)
     p['progress_left']=left
@@ -156,6 +159,6 @@ def compile_file(input_path, out, preset=None, offset=None, progress_seconds=Non
     return manifest
 
 if __name__=='__main__':
-    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--cues',required=True);ap.add_argument('--out',required=True);ap.add_argument('--preset');ap.add_argument('--offset',type=float);ap.add_argument('--progress-seconds',type=float);ap.add_argument('--left',type=int);ap.add_argument('--intro-end',type=float);ap.add_argument('--draft',action='store_true')
-    args=ap.parse_args();m=compile_file(args.cues,args.out,args.preset,args.offset,args.progress_seconds,args.draft,args.left,args.intro_end)
+    ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--cues',required=True);ap.add_argument('--out',required=True);ap.add_argument('--preset');ap.add_argument('--offset',type=float);ap.add_argument('--progress-seconds',type=float);ap.add_argument('--left',type=int);ap.add_argument('--intro-end',type=float);ap.add_argument('--fonts-dir');ap.add_argument('--draft',action='store_true')
+    args=ap.parse_args();m=compile_file(args.cues,args.out,args.preset,args.offset,args.progress_seconds,args.draft,args.left,args.intro_end,args.fonts_dir)
     print(json.dumps({'cue_count':m['cue_count'],'offset':m['preset']['offset_seconds'],'row_pitch':m['preset']['row_pitch'],'progress_seconds':m['progress_duration'],'intro_progress':m['intro_progress'],'longest':m['longest'],'out':str(Path(args.out).resolve())},ensure_ascii=False,indent=2))
