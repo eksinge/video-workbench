@@ -1,5 +1,7 @@
 # AI instructions for this repository
 
+For word-by-word two-line roll-up captions (滚动字幕), read `skills/rolling-captions/SKILL.md` and use its transparent serif defaults or the user's requested style. The lyric conveyor, intro-rule, glyph-fill, and lyric-specific retention requirements below apply to lyric MV work; do not substitute them for roll-up captions.
+
 1. Read `skills/video-workbench/SKILL.md` first. For lyric MVs also read `references/lyric-style.md`, `references/lyric-workflow.md`, and `references/script-contracts.md` in that skill. Read `docs/AI-WORKFLOW.md` before installing or rendering.
 2. Keep existing Remotion/HyperFrames projects in their own engine. New music-driven visuals usually use HyperFrames; explicit user engine choices win. Run the matching official skill. Generate visuals from the user's actual music, not a fixed copy of the demonstration timing.
 3. Top white rule: x=86..1834, y=115; extend both original ends by24px, preserve center960 and apply to every scene below the lyrics. The orange underline is now a separate intro bar: video0 to actual first vocal onset, right1834 to the measured leftmost glyph x of the longest lyric line, then hold full. Derive speed per song, ignore lyric display offsets and full-song progress duration; never hardcode11.95s.

@@ -1,0 +1,8 @@
+interface:
+
+  display_name: "滚动字幕"
+
+  short_description: "本地逐词识别与强制对齐，生成白色衬线字、透明底的双行滚动字幕"
+
+  default_prompt: "使用 $rolling-captions 为这段视频生成逐词追加、两行向上滚动的字幕。"
+

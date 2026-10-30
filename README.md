@@ -48,6 +48,12 @@ MD 每个非空换行一句、逐句审核实际演唱时间、行距随字号�
 
 完整参数与验收标准见 [样式规范](skills/video-workbench/references/lyric-style.md)。**原参考歌提前0.6秒仅是那首歌的校正，已明确从通用默认中移除。**
 
+## 滚动字幕 Skill
+
+新增 [滚动字幕](skills/rolling-captions/SKILL.md)（`$rolling-captions`）：使用已有本地 Large V3 与 WhisperX 生成词级时间轴，导出白色 Times New Roman、透明底、逐词追加、双行上滚的 ASS 和 MP4。适用于访谈、英文口语等字幕，不套用歌词 MV 的传送带与字形填色样式。
+
+将 `skills/rolling-captions` 复制到本机 `~/.codex/skills/rolling-captions`，或让 AI 直接读取该目录的 `SKILL.md`。脚本支持识别、对齐、编译、渲染和完整解码校验；优先复用已有模型，不自动下载模型。参数见 [命令与数据](skills/rolling-captions/references/commands.md)。模型、音视频和系统字体均不随 skill 分发。
+
 ## 本地安装
 
 需要 Node.js ≥22、**Python 3.12**、Git，以及 PATH 中带 libass / libx264 的 FFmpeg、ffprobe。参考环境是 Windows；要匹配音符字形，需 Windows 自带 Segoe UI Symbol。其他平台请先确认实际字体补字，不能只凭安装成功声称逐像素一致。
